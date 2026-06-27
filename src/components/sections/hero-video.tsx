@@ -9,10 +9,12 @@ export default async function HeroVideo() {
   ]);
 
   const bgUrl = data?.background_photo_url || null;
-  // Use the same bottom-center image as the homepage hero (hero.tsx).
+  // Mirror the homepage hero (hero.tsx / dashboard context) for the bottom-center
+  // image and the button, so editing "Hero Event (Dashboard)" in the admin drives
+  // the offline hero too.
   const pngUrl = dashboardData?.png_image_url || null;
-  const button1Text = data?.button1_text || 'Buy Ticket';
-  const button1Url = data?.button1_url || 'https://drsn.me/escapemakassar2026';
+  const button1Text = dashboardData?.button1_text || 'Buy Ticket';
+  const button1Url = dashboardData?.button1_url || 'https://drsn.me/escapemakassar2026';
 
   return (
     <section className="relative w-full overflow-hidden bg-black h-[75vh] sm:h-[80vh] md:aspect-video md:h-auto">
