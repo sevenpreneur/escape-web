@@ -18,25 +18,26 @@ export default async function Hero() {
 
   return (
     <section className="relative bg-black">
-      <Image
-        src={bgUrl}
-        alt=""
-        fill
-        priority
-        className="invisible absolute"
-        aria-hidden
-      />
       <div className="relative mx-auto flex w-full flex-col">
         <div className="relative w-full mb-10 aspect-3/4 sm:aspect-4/3 md:aspect-1440/900">
-          {/* Mobile: event detail poster as background */}
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat sm:hidden"
-            style={{ backgroundImage: `url('${mobileBgUrl}')` }}
+          {/* Mobile: event detail poster as background. Lazy + hidden on >=sm so
+              only the breakpoint-appropriate image is downloaded. */}
+          <Image
+            src={mobileBgUrl}
+            alt=""
+            fill
+            sizes="100vw"
+            className="z-0 object-cover object-center sm:hidden"
+            aria-hidden
           />
           {/* Tablet/desktop: hero background photo */}
-          <div
-            className="absolute inset-0 z-0 hidden bg-cover bg-center bg-no-repeat sm:block"
-            style={{ backgroundImage: `url('${bgUrl}')` }}
+          <Image
+            src={bgUrl}
+            alt=""
+            fill
+            sizes="100vw"
+            className="z-0 hidden object-cover object-center sm:block"
+            aria-hidden
           />
           <div className="relative z-10 flex h-full flex-col items-center justify-end lg:pb-6">
             {pngUrl && (

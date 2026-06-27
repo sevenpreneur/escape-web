@@ -4,20 +4,17 @@ import Image from "next/image";
 export default function AboutHero() {
     return (
         <section className="relative bg-black">
-            <Image
-  src="/images/about-hero.png"
-  alt=""
-  fill
-  priority
-  className="invisible absolute"
-  aria-hidden
-/>
             <div className="relative w-full aspect-16/10 max-h-screen">
-                <div
-                    className="absolute inset-0 bg-[url('/images/about-hero.png')] bg-cover bg-center bg-no-repeat"
+                <Image
+                    src="/images/about-hero.png"
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover object-center"
+                    aria-hidden
                 />
                 {/* bottom fade into black */}
-               
             </div>
 
             {/* text block overlapping the fade */}

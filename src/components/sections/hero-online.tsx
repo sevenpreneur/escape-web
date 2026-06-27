@@ -21,6 +21,7 @@ export default async function OnlineHero() {
           alt={teksJudul}
           fill
           priority
+          sizes="100vw"
           className="object-cover object-top"
         />
         <div className="absolute inset-x-0 bottom-0 h-1/4 bg-linear-to-t from-black to-transparent" />

@@ -3,10 +3,14 @@ import { getHeroEventData } from "@/lib/supabase-server";
 import HeroYoutubeBackground from "./hero-youtube-bg";
 
 export default async function HeroVideo() {
-  const data = await getHeroEventData('offline');
+  const [data, dashboardData] = await Promise.all([
+    getHeroEventData('offline'),
+    getHeroEventData('dashboard'),
+  ]);
 
   const bgUrl = data?.background_photo_url || null;
-  const pngUrl = data?.png_image_url || '/images/escape-room.png';
+  // Use the same bottom-center image as the homepage hero (hero.tsx).
+  const pngUrl = dashboardData?.png_image_url || null;
   const button1Text = data?.button1_text || 'Buy Ticket';
   const button1Url = data?.button1_url || 'https://drsn.me/escapemakassar2026';
 
@@ -18,7 +22,7 @@ export default async function HeroVideo() {
       {/* Custom background image if set in admin */}
       {bgUrl && (
         <div className="absolute inset-0">
-          <Image src={bgUrl} alt="" fill priority className="object-cover" />
+          <Image src={bgUrl} alt="" fill priority sizes="100vw" className="object-cover" />
         </div>
       )}
 
@@ -30,14 +34,16 @@ export default async function HeroVideo() {
 
       {/* bottom center content */}
       <div className="absolute inset-x-0 bottom-[8%] flex flex-col items-center">
-        <Image
-          src={pngUrl}
-          alt="Live Podcast Escape Room Makassar"
-          width={400}
-          height={200}
-          priority
-          className="w-48 sm:w-64 md:w-80 lg:w-100 object-contain"
-        />
+        {pngUrl && (
+          <Image
+            src={pngUrl}
+            alt=""
+            width={400}
+            height={200}
+            priority
+            className="mb-4 w-48 object-contain sm:w-64 md:w-80 lg:w-100"
+          />
+        )}
 
         <div className="mt-4 flex gap-3 sm:gap-4">
           <a

@@ -11,6 +11,7 @@ export default function MerchHero() {
                     alt="Escape Fashion & Merch"
                     fill
                     priority
+                    sizes="100vw"
                     className="object-cover object-top"
                 />
                 

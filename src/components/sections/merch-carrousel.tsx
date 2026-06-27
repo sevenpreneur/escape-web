@@ -47,6 +47,7 @@ export default function MerchCarousel() {
                             alt={slide.title}
                             fill
                             priority={i === 0}
+                            sizes="100vw"
                             className="object-cover object-center"
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
