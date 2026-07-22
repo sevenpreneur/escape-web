@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getMerchandiseItems } from "@/lib/supabase-server";
+import { getMerchandiseItems, type MerchandiseItem } from "@/lib/supabase-server";
 
 const STATIC_PRODUCTS = [
   { id: 's1', foto_url: '/images/merch/merc-1.png', nama_produk: '[PREMIUM] Gua Hira Jacket Sajadah ESCAPE x Antarestar Special', kategori: 'Hoodie', harga: 'Rp 280.000' },
@@ -28,7 +28,7 @@ export default async function MerchandiseSection() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:gap-8">
-          {products.map((product: any) => (
+          {products.map((product: MerchandiseItem) => (
             <div key={product.id} className="flex flex-col group">
               <div className="overflow-hidden rounded-2xl bg-white flex items-center justify-center aspect-3/4 p-6">
                 {product.foto_url ? (

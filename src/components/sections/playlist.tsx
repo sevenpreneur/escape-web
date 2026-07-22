@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getPlaylistItems } from "@/lib/supabase-server";
+import { getPlaylistItems, type PlaylistItem } from "@/lib/supabase-server";
 
 export const dynamic = 'force-dynamic'; 
 
@@ -21,7 +21,7 @@ export default async function PlaylistSection() {
         </h2>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-12 md:gap-y-12 lg:gap-x-16 lg:gap-y-14">
-          {episodes.map((ep: any) => {
+          {episodes.map((ep: PlaylistItem) => {
             
             // --- SMART LINK PARSER ---
             let href = '#';

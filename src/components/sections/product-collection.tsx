@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { getMerchandiseItems } from "@/lib/supabase-server";
+import { getMerchandiseItems, type MerchandiseItem } from "@/lib/supabase-server";
 
 export const dynamic = 'force-dynamic';
 
 // 1. Group all static fallback data in one object for cleaner code
-const STATIC_DATA: Record<number, any[]> = {
+const STATIC_DATA: Record<number, MerchandiseItem[]> = {
     3: [
         { nama_produk: "Jaket Sajadah (Jajadah)", kategori: "Outer", harga: "Rp 470.000", foto_url: "/images/merch/merc-1.png" },
         { nama_produk: "T-Shirt Vol.3", kategori: "T-shirt", harga: "Rp 189.000", foto_url: "/images/merch/merc-2.png" },
@@ -25,7 +25,7 @@ const STATIC_DATA: Record<number, any[]> = {
     ]
 };
 
-function ProductCard({ product }: { product: any }) {
+function ProductCard({ product }: { product: MerchandiseItem }) {
     return (
         <div className="flex flex-col gap-3 group cursor-pointer">
             <div className="overflow-hidden rounded-2xl bg-white flex items-center justify-center p-4 sm:p-8 aspect-4/5">
@@ -50,15 +50,15 @@ export default async function ProductCollection() {
     const allDbProducts = await getMerchandiseItems();
     
     // Create a map to hold items by their volume number
-    const groupedVolumes = new Map<number, any[]>();
+    const groupedVolumes = new Map<number, MerchandiseItem[]>();
 
-    const assignToVolume = (vol: number, item: any) => {
+    const assignToVolume = (vol: number, item: MerchandiseItem) => {
         if (!groupedVolumes.has(vol)) groupedVolumes.set(vol, []);
         groupedVolumes.get(vol)!.push(item);
     };
 
     // 2. Scan the database and assign every item to its volume
-    allDbProducts.forEach((p: any) => {
+    allDbProducts.forEach((p: MerchandiseItem) => {
         const name = (p.nama_produk || '').toLowerCase();
         const volMatch = name.match(/vol\.(\d+)/);
 
@@ -102,7 +102,7 @@ export default async function ProductCollection() {
                             </h2>
 
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
-                                {products.map((product: any, i: number) => (
+                                {products.map((product: MerchandiseItem, i: number) => (
                                     <ProductCard key={product.id || i} product={product} />
                                 ))}
                             </div>

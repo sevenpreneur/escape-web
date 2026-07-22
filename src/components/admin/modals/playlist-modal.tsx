@@ -29,7 +29,7 @@ export default function PlaylistModal({ itemId, onClose, onSaved }: Props) {
   const [thumbFile, setThumbFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (!itemId) { setLoading(false); return; }
+    if (!itemId) return;
     supabase.from('playlist_items').select('*').eq('id', itemId).single().then(({ data: row }) => {
       if (row) { setData(row); setThumbPreview(row.thumbnail_url || null); }
       setLoading(false);

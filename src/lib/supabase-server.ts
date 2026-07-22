@@ -29,7 +29,27 @@ export async function getEventDetailData() {
   return data;
 }
 
-export async function getMerchandiseItems() {
+export interface MerchandiseItem {
+  id?: string;
+  foto_url?: string;
+  nama_produk?: string;
+  kategori?: string;
+  harga?: string;
+  order_index?: number;
+}
+
+export interface PlaylistItem {
+  id?: string;
+  thumbnail_url?: string;
+  nama_playlist?: string;
+  category?: string;
+  duration?: string;
+  deskripsi?: string;
+  youtube_playlist_id?: string;
+  order_index?: number;
+}
+
+export async function getMerchandiseItems(): Promise<MerchandiseItem[]> {
   const supabase = createServerClient();
   const { data } = await supabase
     .from('merchandise_items')
@@ -39,7 +59,7 @@ export async function getMerchandiseItems() {
   return data ?? [];
 }
 
-export async function getPlaylistItems() {
+export async function getPlaylistItems(): Promise<PlaylistItem[]> {
   const supabase = createServerClient();
   const { data } = await supabase
     .from('playlist_items')

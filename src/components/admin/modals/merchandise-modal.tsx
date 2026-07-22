@@ -29,7 +29,7 @@ export default function MerchandiseModal({ itemId, onClose, onSaved }: Props) {
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (!itemId) { setLoading(false); return; }
+    if (!itemId) return;
     supabase.from('merchandise_items').select('*').eq('id', itemId).single().then(({ data: row }) => {
       if (row) { setData(row); setPreview(row.foto_url || null); }
       setLoading(false);

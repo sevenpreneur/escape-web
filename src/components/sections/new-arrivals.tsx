@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getMerchandiseItems } from "@/lib/supabase-server";
+import { getMerchandiseItems, type MerchandiseItem } from "@/lib/supabase-server";
 
 export const dynamic = 'force-dynamic';
 
@@ -17,19 +17,19 @@ export default async function NewArrivals() {
     let maxVol = 3; // We start at 3 as our default baseline
     
     const volumeNumbers = allDbProducts
-        .map((p: any) => {
+        .map((p: MerchandiseItem) => {
             // This regex looks for "vol." followed by numbers (e.g., "vol.3", "vol.4")
             const match = (p.nama_produk || '').toLowerCase().match(/vol\.(\d+)/);
             return match ? parseInt(match[1], 10) : null;
         })
-        .filter((num: any) => num !== null); // Remove nulls
+        .filter((num): num is number => num !== null); // Remove nulls
 
     if (volumeNumbers.length > 0) {
         maxVol = Math.max(...volumeNumbers); // Get the highest number found
     }
 
     // 2. Filter products to ONLY show items from the highest volume
-    const dbArrivals = allDbProducts.filter((p: any) => {
+    const dbArrivals = allDbProducts.filter((p: MerchandiseItem) => {
         const name = (p.nama_produk || '').toLowerCase();
         
         // Special rule: if the highest volume is still 3, include your specific legacy items
@@ -52,7 +52,7 @@ export default async function NewArrivals() {
                 </h2>
 
                 <div className="grid grid-cols-2 gap-4 md:gap-6">
-                    {products.map((product: any, index: number) => (
+                    {products.map((product: MerchandiseItem, index: number) => (
                         <div key={product.id || index} className="flex flex-col group cursor-pointer">
                             <div className="overflow-hidden rounded-2xl bg-white flex items-center justify-center aspect-square p-4 sm:p-8 md:p-12">
                                 <Image

@@ -1,40 +1,16 @@
 import Image from "next/image";
 
-export default function CollabSection() {
-    const collaborators = [
-        { image: '/images/people/1.png' },
-        { image: '/images/people/2.png' },
-        { image: '/images/people/3.png' },
-        { image: '/images/people/4.png' },
-        { image: '/images/people/5.png' },
-        { image: '/images/people/6.png' },
-        { image: '/images/people/7.png' },
-        { image: '/images/people/8.png' },
-        { image: '/images/people/9.png' },
-        { image: '/images/people/10.png' },
-        { image: '/images/people/11.png' },
-        { image: '/images/people/12.png' },
-        { image: '/images/people/13.png' },
-        { image: '/images/people/14.png' },
-        { image: '/images/people/15.png' },
-        { image: '/images/people/16.png' },
-        { image: '/images/people/17.png' },
-        { image: '/images/people/18.png' },
-        { image: '/images/people/19.png' },
-        { image: '/images/people/20.png' },
-        { image: '/images/people/21.png' },
-    ];
+const brands = [
+    { src: '/images/brand1.png', alt: 'Brand 1', width: 71,  height: 64  },
+    { src: '/images/brand2.png', alt: 'Brand 2', width: 70,  height: 45  },
+    { src: '/images/brand3.png', alt: 'Brand 3', width: 130, height: 28  },
+    { src: '/images/brand4.png', alt: 'Brand 4', width: 89,  height: 89  },
+    { src: '/images/brand5.png', alt: 'Brand 5', width: 89,  height: 89  },
+    { src: '/images/brand6.png', alt: 'Brand 6', width: 89,  height: 89  },
+];
 
-    const brands = [
-        { src: '/images/brand1.png', alt: 'Brand 1', width: 71,  height: 64  },
-        { src: '/images/brand2.png', alt: 'Brand 2', width: 70,  height: 45  },
-        { src: '/images/brand3.png', alt: 'Brand 3', width: 130, height: 28  },
-        { src: '/images/brand4.png', alt: 'Brand 4', width: 89,  height: 89  },
-        { src: '/images/brand5.png', alt: 'Brand 5', width: 89,  height: 89  },
-        { src: '/images/brand6.png', alt: 'Brand 6', width: 89,  height: 89  },
-    ];
-
-    const BrandStrip = ({ keyPrefix }: { keyPrefix: string }) => (
+function BrandStrip({ keyPrefix }: { keyPrefix: string }) {
+    return (
         <>
             {[...Array(5)].map((_, setIndex) => (
                 <div
@@ -59,6 +35,32 @@ export default function CollabSection() {
             ))}
         </>
     );
+}
+
+export default function CollabSection() {
+    const collaborators = [
+        { image: '/images/people/1.png' },
+        { image: '/images/people/2.png' },
+        { image: '/images/people/3.png' },
+        { image: '/images/people/4.png' },
+        { image: '/images/people/5.png' },
+        { image: '/images/people/6.png' },
+        { image: '/images/people/7.png' },
+        { image: '/images/people/8.png' },
+        { image: '/images/people/9.png' },
+        { image: '/images/people/10.png' },
+        { image: '/images/people/11.png' },
+        { image: '/images/people/12.png' },
+        { image: '/images/people/13.png' },
+        { image: '/images/people/14.png' },
+        { image: '/images/people/15.png' },
+        { image: '/images/people/16.png' },
+        { image: '/images/people/17.png' },
+        { image: '/images/people/18.png' },
+        { image: '/images/people/19.png' },
+        { image: '/images/people/20.png' },
+        { image: '/images/people/21.png' },
+    ];
 
     return (
         <section className="bg-black py-12 sm:py-16 md:py-20 lg:py-24">

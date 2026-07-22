@@ -12,7 +12,7 @@ export default function Footer() {
               <Escape />
             </div>
             <p className="text-xs leading-relaxed text-gray-400 max-w-sm">
-              ESCAPE adalah "Ruang Waras". Sebuah podcast yang percaya bahwa
+              ESCAPE adalah &quot;Ruang Waras&quot;. Sebuah podcast yang percaya bahwa
               iman yang kokoh justru lahir dari pertanyaan-pertanyaan yang
               berani, dan bahwa akal adalah anugerah terbesar untuk memahami
               petunjuk Tuhan.
@@ -152,7 +152,7 @@ export default function Footer() {
               <Escape />
             </div>
             <p className="text-xs leading-relaxed text-gray-400">
-              ESCAPE adalah "Ruang Waras". Sebuah podcast yang percaya bahwa iman yang kokoh justru lahir dari pertanyaan-pertanyaan yang berani, dan bahwa akal adalah anugerah terbesar untuk memahami petunjuk Tuhan.
+              ESCAPE adalah &quot;Ruang Waras&quot;. Sebuah podcast yang percaya bahwa iman yang kokoh justru lahir dari pertanyaan-pertanyaan yang berani, dan bahwa akal adalah anugerah terbesar untuk memahami petunjuk Tuhan.
               <br />
               <br />
 

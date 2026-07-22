@@ -50,8 +50,10 @@ export default function AdminShell() {
   }, []);
 
   useEffect(() => {
-    loadMerch();
-    loadPlaylist();
+    void (async () => {
+      await loadMerch();
+      await loadPlaylist();
+    })();
   }, [loadMerch, loadPlaylist]);
 
   const showToast = (msg: string) => {
@@ -295,7 +297,11 @@ function NavSection({ label, icon, active, collapsed, onClick, items }: {
   onClick: () => void; items: { label: string; onClick: () => void }[];
 }) {
   const [open, setOpen] = useState(active);
-  useEffect(() => { if (active) setOpen(true); }, [active]);
+  const [prevActive, setPrevActive] = useState(active);
+  if (active !== prevActive) {
+    setPrevActive(active);
+    if (active) setOpen(true);
+  }
 
   return (
     <div>
@@ -383,7 +389,7 @@ function DashboardView({ merch, onEditHero, onEditEventDetail, onEditMerch, onAd
           ))}
           {merch.length === 0 && (
             <div className="col-span-2 sm:col-span-3 text-center py-12 text-[#444] text-sm border border-dashed border-white/10 rounded-xl">
-              Belum ada item. Klik "Tambah Item" untuk menambah.
+              Belum ada item. Klik &quot;Tambah Item&quot; untuk menambah.
             </div>
           )}
         </div>
@@ -429,7 +435,7 @@ function OnlineView({ playlist, onEditHero, onEditPlaylist, onAddPlaylist, onDel
           ))}
           {playlist.length === 0 && (
             <div className="text-center py-12 text-[#444] text-sm border border-dashed border-white/10 rounded-xl">
-              Belum ada playlist. Klik "Tambah Playlist" untuk menambah.
+              Belum ada playlist. Klik &quot;Tambah Playlist&quot; untuk menambah.
             </div>
           )}
         </div>
