@@ -1,7 +1,9 @@
 import pg from 'pg';
 
+process.loadEnvFile();
+
 const client = new pg.Client({
-  connectionString: 'postgres://postgres.qsahwnpiwhaxjpbtuegt:TwN3C1Jh.ej%40Sa%3A%5B%248jRpxCpe%2C%3BG6qaC@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require&uselibpqcompat=true',
+  connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
 
