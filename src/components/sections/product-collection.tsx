@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getMerchandiseItems, type MerchandiseItem } from "@/lib/supabase-server";
+import { getMerchandiseItems, type MerchandiseItem } from "@/lib/queries";
 
 export const dynamic = 'force-dynamic';
 

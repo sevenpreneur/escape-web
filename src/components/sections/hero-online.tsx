@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getHeroEventData } from "@/lib/supabase-server";
+import { getHeroEventData } from "@/lib/queries";
 
 export default async function OnlineHero() {
   const data = await getHeroEventData('online');

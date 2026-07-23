@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getPromotionalBannerData } from "@/lib/supabase-server";
+import { getPromotionalBannerData } from "@/lib/queries";
 
 export default async function SpotifySection() {
   const data = await getPromotionalBannerData();

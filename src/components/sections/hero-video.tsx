@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getHeroEventData } from "@/lib/supabase-server";
+import { getHeroEventData } from "@/lib/queries";
 import HeroYoutubeBackground from "./hero-youtube-bg";
 
 export default async function HeroVideo() {

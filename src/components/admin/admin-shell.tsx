@@ -2,8 +2,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import LogoIcon from '@/components/icons/logo';
-import { supabase } from '@/lib/supabase';
 import { logoutAdmin } from '@/app/admin/actions';
+import { getMerchandiseItemsAdmin, getPlaylistItemsAdmin, deleteMerchandiseItem, deletePlaylistItem } from '@/app/admin/data-actions';
 import HeroEventModal from './modals/hero-event-modal';
 import EventDetailModal from './modals/event-detail-modal';
 import MerchandiseModal from './modals/merchandise-modal';
@@ -40,13 +40,13 @@ export default function AdminShell() {
   }, [router]);
 
   const loadMerch = useCallback(async () => {
-    const { data } = await supabase.from('merchandise_items').select('*').order('order_index');
-    if (data) setMerch(data);
+    const data = await getMerchandiseItemsAdmin();
+    if (data) setMerch(data as MerchItem[]);
   }, []);
 
   const loadPlaylist = useCallback(async () => {
-    const { data } = await supabase.from('playlist_items').select('*').order('order_index');
-    if (data) setPlaylist(data);
+    const data = await getPlaylistItemsAdmin();
+    if (data) setPlaylist(data as PlaylistItem[]);
   }, []);
 
   useEffect(() => {
@@ -76,13 +76,13 @@ export default function AdminShell() {
 
   const deleteMerch = async (id: string) => {
     if (!confirm('Hapus item ini?')) return;
-    await supabase.from('merchandise_items').delete().eq('id', id);
+    await deleteMerchandiseItem(id);
     loadMerch();
   };
 
   const deletePlaylist = async (id: string) => {
     if (!confirm('Hapus playlist ini?')) return;
-    await supabase.from('playlist_items').delete().eq('id', id);
+    await deletePlaylistItem(id);
     loadPlaylist();
   };
 
@@ -209,7 +209,7 @@ export default function AdminShell() {
             <h1 className="text-base md:text-lg font-bold text-white">{pageTitles[activePage]}</h1>
           </div>
           <button
-            onClick={() => showToast('Semua perubahan sudah tersimpan di Supabase!')}
+            onClick={() => showToast('Semua perubahan sudah tersimpan!')}
             className="bg-[#DA393C] text-white text-xs font-bold px-4 md:px-6 py-2 md:py-2.5 rounded-lg hover:bg-[#b52b2d] active:scale-[0.98] transition-all uppercase tracking-widest whitespace-nowrap"
           >
             <span className="hidden sm:inline">Launch Update</span>

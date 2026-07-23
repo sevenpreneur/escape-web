@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getEventDetailData } from "@/lib/supabase-server";
+import { getEventDetailData } from "@/lib/queries";
 
 export default async function EventDetailSection() {
   const data = await getEventDetailData();

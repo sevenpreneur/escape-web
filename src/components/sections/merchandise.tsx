@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getMerchandiseItems, type MerchandiseItem } from "@/lib/supabase-server";
+import { getMerchandiseItems, type MerchandiseItem } from "@/lib/queries";
 
 const STATIC_PRODUCTS = [
   { id: 's1', foto_url: '/images/merch/merc-1.png', nama_produk: '[PREMIUM] Gua Hira Jacket Sajadah ESCAPE x Antarestar Special', kategori: 'Hoodie', harga: 'Rp 280.000' },

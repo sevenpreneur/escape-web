@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import { supabase, uploadToStorage } from '@/lib/supabase';
+import { uploadToStorage } from '@/lib/supabase';
 import { ModalWrapper, ModalFooter, Field, ImageThumb, FileButton } from './hero-event-modal';
+import { getEventDetailDataAdmin, saveEventDetailData } from '@/app/admin/data-actions';
 
 interface EventDetailData {
   id?: number;
@@ -31,12 +32,7 @@ export default function EventDetailModal({ onClose, onSaved }: Props) {
 
   useEffect(() => {
     async function load() {
-      const { data: row } = await supabase
-        .from('event_detail_data')
-        .select('*')
-        .order('id', { ascending: true })
-        .limit(1)
-        .single();
+      const row = await getEventDetailDataAdmin();
       if (row) {
         setData(row);
         setPosterPreview(row.poster_event_url || null);
@@ -64,19 +60,14 @@ export default function EventDetailModal({ onClose, onSaved }: Props) {
 
     const payload = { ...data, poster_event_url: posterUrl };
 
-    let error;
-    if (data.id) {
-      ({ error } = await supabase.from('event_detail_data').update(payload).eq('id', data.id));
-    } else {
-      ({ error } = await supabase.from('event_detail_data').insert(payload));
-    }
-
-    setSaving(false);
-    if (!error) {
+    try {
+      await saveEventDetailData(payload);
       onSaved?.();
       onClose();
-    } else {
-      alert('Error saving: ' + error.message);
+    } catch (err) {
+      alert('Error saving: ' + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
     }
   };
 

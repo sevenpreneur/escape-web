@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import { supabase, uploadToStorage } from '@/lib/supabase';
+import { uploadToStorage } from '@/lib/supabase';
 import { ModalWrapper, ModalFooter, Field, FileButton } from './hero-event-modal';
+import { getPromotionalBannerDataAdmin, savePromotionalBannerData } from '@/app/admin/data-actions';
 
 interface BannerData {
   id?: number;
@@ -26,7 +27,7 @@ export default function PromotionalBannerModal({ onClose, onSaved }: Props) {
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
-    supabase.from('promotional_banner_data').select('*').order('id').limit(1).single().then(({ data: row }) => {
+    getPromotionalBannerDataAdmin().then((row) => {
       if (row) { setData(row); setPreview(row.foto_url || null); }
       setLoading(false);
     });
@@ -48,16 +49,15 @@ export default function PromotionalBannerModal({ onClose, onSaved }: Props) {
     }
 
     const payload = { ...data, foto_url: fotoUrl };
-    let error;
-    if (data.id) {
-      ({ error } = await supabase.from('promotional_banner_data').update(payload).eq('id', data.id));
-    } else {
-      ({ error } = await supabase.from('promotional_banner_data').insert(payload));
+    try {
+      await savePromotionalBannerData(payload);
+      onSaved?.();
+      onClose();
+    } catch (err) {
+      alert('Error: ' + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
     }
-
-    setSaving(false);
-    if (!error) { onSaved?.(); onClose(); }
-    else alert('Error: ' + error.message);
   };
 
   const set = (field: keyof BannerData, value: string) =>

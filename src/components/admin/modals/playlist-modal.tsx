@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import { supabase, uploadToStorage } from '@/lib/supabase';
+import { uploadToStorage } from '@/lib/supabase';
 import { ModalWrapper, ModalFooter, Field, FileButton } from './hero-event-modal';
+import { getPlaylistItemAdmin, savePlaylistItem } from '@/app/admin/data-actions';
 
 interface PlaylistItem {
   id?: string;
@@ -30,7 +31,7 @@ export default function PlaylistModal({ itemId, onClose, onSaved }: Props) {
 
   useEffect(() => {
     if (!itemId) return;
-    supabase.from('playlist_items').select('*').eq('id', itemId).single().then(({ data: row }) => {
+    getPlaylistItemAdmin(itemId).then((row) => {
       if (row) { setData(row); setThumbPreview(row.thumbnail_url || null); }
       setLoading(false);
     });
@@ -52,16 +53,15 @@ export default function PlaylistModal({ itemId, onClose, onSaved }: Props) {
     }
 
     const payload = { ...data, thumbnail_url: thumbUrl };
-    let error;
-    if (itemId) {
-      ({ error } = await supabase.from('playlist_items').update(payload).eq('id', itemId));
-    } else {
-      ({ error } = await supabase.from('playlist_items').insert(payload));
+    try {
+      await savePlaylistItem(itemId, payload);
+      onSaved?.();
+      onClose();
+    } catch (err) {
+      alert('Error: ' + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
     }
-
-    setSaving(false);
-    if (!error) { onSaved?.(); onClose(); }
-    else alert('Error: ' + error.message);
   };
 
   const set = (field: keyof PlaylistItem, value: string | number) =>

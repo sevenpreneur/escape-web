@@ -44,3 +44,6 @@ public/videos/*.mp4
 
 #openclaude
 .openclaude-profile.json
+
+# MCP config
+.mcp.json

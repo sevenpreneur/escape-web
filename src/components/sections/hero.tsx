@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { InfiniteScrollGallery } from "../ui/infinite-gallery";
-import { getHeroEventData, getEventDetailData } from "@/lib/supabase-server";
+import { getHeroEventData, getEventDetailData } from "@/lib/queries";
 
 export default async function Hero() {
   const [data, eventDetail] = await Promise.all([

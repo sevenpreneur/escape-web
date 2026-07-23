@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import { supabase, uploadToStorage } from '@/lib/supabase';
+import { uploadToStorage } from '@/lib/supabase';
 import { ModalWrapper, ModalFooter, Field, FileButton } from './hero-event-modal';
+import { getMerchandiseItemAdmin, saveMerchandiseItem } from '@/app/admin/data-actions';
 
 interface MerchandiseItem {
   id?: string;
@@ -30,7 +31,7 @@ export default function MerchandiseModal({ itemId, onClose, onSaved }: Props) {
 
   useEffect(() => {
     if (!itemId) return;
-    supabase.from('merchandise_items').select('*').eq('id', itemId).single().then(({ data: row }) => {
+    getMerchandiseItemAdmin(itemId).then((row) => {
       if (row) { setData(row); setPreview(row.foto_url || null); }
       setLoading(false);
     });
@@ -52,16 +53,15 @@ export default function MerchandiseModal({ itemId, onClose, onSaved }: Props) {
     }
 
     const payload = { ...data, foto_url: fotoUrl };
-    let error;
-    if (itemId) {
-      ({ error } = await supabase.from('merchandise_items').update(payload).eq('id', itemId));
-    } else {
-      ({ error } = await supabase.from('merchandise_items').insert(payload));
+    try {
+      await saveMerchandiseItem(itemId, payload);
+      onSaved?.();
+      onClose();
+    } catch (err) {
+      alert('Error: ' + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
     }
-
-    setSaving(false);
-    if (!error) { onSaved?.(); onClose(); }
-    else alert('Error: ' + error.message);
   };
 
   const set = (field: keyof MerchandiseItem, value: string | number) =>

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import { supabase, uploadToStorage } from '@/lib/supabase';
+import { uploadToStorage } from '@/lib/supabase';
+import { getHeroEventDataAdmin, saveHeroEventData } from '@/app/admin/data-actions';
 
 interface HeroEventData {
   id?: number;
@@ -36,11 +37,7 @@ export default function HeroEventModal({ pageContext, title, onClose, onSaved }:
 
   useEffect(() => {
     async function load() {
-      const { data: row } = await supabase
-        .from('hero_event_data')
-        .select('*')
-        .eq('page_context', pageContext)
-        .single();
+      const row = await getHeroEventDataAdmin(pageContext);
       if (row) {
         setData(row);
         setBgPreview(row.background_photo_url || null);
@@ -85,16 +82,14 @@ export default function HeroEventModal({ pageContext, title, onClose, onSaved }:
       png_image_url: pngUrl,
     };
 
-    const { error } = await supabase
-      .from('hero_event_data')
-      .upsert(payload, { onConflict: 'page_context' });
-
-    setSaving(false);
-    if (!error) {
+    try {
+      await saveHeroEventData(payload);
       onSaved?.();
       onClose();
-    } else {
-      alert('Error saving: ' + error.message);
+    } catch (err) {
+      alert('Error saving: ' + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setSaving(false);
     }
   };
 

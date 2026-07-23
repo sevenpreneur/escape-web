@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getPlaylistItems, type PlaylistItem } from "@/lib/supabase-server";
+import { getPlaylistItems, type PlaylistItem } from "@/lib/queries";
 
 export const dynamic = 'force-dynamic'; 
 

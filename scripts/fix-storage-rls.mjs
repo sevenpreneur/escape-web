@@ -3,7 +3,7 @@ import pg from 'pg';
 process.loadEnvFile();
 
 const client = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.SUPABASE_STORAGE_DB_URL,
   ssl: true,
 });
 
