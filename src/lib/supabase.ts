@@ -10,7 +10,7 @@ export async function uploadToStorage(file: File, folder: string): Promise<strin
   const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
   const { data, error } = await supabase.storage
-    .from('escape-assets')
+    .from('escape')
     .upload(filename, file, { upsert: true, contentType: file.type });
 
   if (error) {
@@ -19,7 +19,7 @@ export async function uploadToStorage(file: File, folder: string): Promise<strin
   }
 
   const { data: { publicUrl } } = supabase.storage
-    .from('escape-assets')
+    .from('escape')
     .getPublicUrl(data.path);
 
   return publicUrl;
